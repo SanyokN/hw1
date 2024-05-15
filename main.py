@@ -1,4 +1,6 @@
 print("hello world")
+
+
 def get_longest_str(string1: str, string2: str) -> str:
     """Accepts two strings and returns the longest one"""
     if len(string1) > len(string2):
