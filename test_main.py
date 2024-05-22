@@ -1,6 +1,3 @@
-from main import remove_whitespace
-
-
 def test_string1():
     actual_result1 = remove_whitespace("this is a string")
     expected_result1 = "thisisastring"
