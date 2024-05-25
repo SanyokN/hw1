@@ -7,10 +7,8 @@ class Car:
         self.year = constants.YEAR
         self.cost = constants.COST
 
-
     def __str__(self) -> str:
         return f"Model: {self.model}, year: {self.year}, cost: {self.cost}"
-
 
     def decrease_cost_for_each_kilometer_of_trip(self, trip_distance: int | float) -> int:
         """Takes the trip distance.
