@@ -1,33 +1,50 @@
-import constants
+from abc import ABC, abstractmethod
 
 
-class Car:
-    def __init__(self, model: str):
-        self.model = model
-        self.year = constants.YEAR
-        self.cost = constants.COST
+class LibraryItem(ABC):
+    def __init__(self, title: str, author_or_director: str, year: int):
+        self.title = title
+        self.author_or_director = author_or_director
+        self.year = year
 
-    def __str__(self) -> str:
-        return f"Model: {self.model}, year: {self.year}, cost: {self.cost}"
-
-    def decrease_cost_for_each_kilometer_of_trip(self, trip_distance: int | float) -> int:
-        """Takes the trip distance.
-        Upon its launch, the cost of the car is reduced by UAH 10 for every kilometer of travel"""
-        km = 10
-        reduced_cost = trip_distance * km
-        self.cost -= reduced_cost
-        return self.cost
-
-    @property
-    def what_car_is_this(self) -> str:
-        if self.cost > 10_000_000:
-            return constants.Value.ELITE
-        elif self.cost < 2_000_000:
-            return constants.Value.ECONOMY
-        else:
-            return constants.Value.MIDDLE
+    @abstractmethod
+    def description(self):
+        pass
 
 
-skoda = Car("Škoda Fabia")
-skoda.decrease_cost_for_each_kilometer_of_trip(100)
-print(skoda)
+class Book(LibraryItem):
+    def __init__(self, title: str, author_or_director: str, year: int, number_of_pages: int):
+        super().__init__(title, author_or_director, year)
+        self.number_of_pages = number_of_pages
+
+    def description(self):
+        return (f"Title: {self.title}, Author/Director: {self.author_or_director}, Year: {self.year}, "
+                f"Number of pages: {self.number_of_pages}")
+
+
+class Magazine(LibraryItem):
+    def __init__(self, title: str, author_or_director: str, year: int, issue_number: int):
+        super().__init__(title, author_or_director, year)
+        self.issue_number = issue_number
+
+    def description(self):
+        return (f"Title: {self.title}, Author/Director: {self.author_or_director}, Year: {self.year}, "
+                f"Issue number: {self.issue_number}")
+
+
+class DVD(LibraryItem):
+    def __init__(self, title: str, author_or_director: str, year: int, duration: int):
+        super().__init__(title, author_or_director, year)
+        self.duration = duration
+
+    def description(self):
+        return (f"Title: {self.title}, Author/Director: {self.author_or_director}, Year: {self.year}, "
+                f"Duration: {self.duration}")
+
+
+book = Book("A Tale of Two Cities", "Charles Dickens", 1859, 489)
+magazine = Magazine("ADAC Motorwelt", "BCN", 1925, 72842)
+dvd = DVD("Paramount Pictures presents", "Paramount Pictures", 1999, 90)
+print(book.description())
+print(magazine.description())
+print(dvd.description())
