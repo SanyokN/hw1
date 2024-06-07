@@ -1,50 +1,47 @@
-from abc import ABC, abstractmethod
+from functools import wraps
+from typing import Callable
+
+data = [20, "hi", 3.14]
 
 
-class LibraryItem(ABC):
-    def __init__(self, title: str, author_or_director: str, year: int):
-        self.title = title
-        self.author_or_director = author_or_director
-        self.year = year
-
-    @abstractmethod
-    def description(self):
-        pass
-
-
-class Book(LibraryItem):
-    def __init__(self, title: str, author_or_director: str, year: int, number_of_pages: int):
-        super().__init__(title, author_or_director, year)
-        self.number_of_pages = number_of_pages
-
-    def description(self):
-        return (f"Title: {self.title}, Author/Director: {self.author_or_director}, Year: {self.year}, "
-                f"Number of pages: {self.number_of_pages}")
+def decorator(filter_type: str):
+    def decorator_inner(func: Callable):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            result = func(*args, **kwargs)
+            if isinstance(result, list):
+                if filter_type == 'str':
+                    result = [item for item in result if not isinstance(item, str)]
+                elif filter_type == 'int':
+                    result = [item for item in result if not isinstance(item, int)]
+                elif filter_type == 'float':
+                    result = [item for item in result if not isinstance(item, float)]
+            return result
+        return wrapper
+    return decorator_inner
 
 
-class Magazine(LibraryItem):
-    def __init__(self, title: str, author_or_director: str, year: int, issue_number: int):
-        super().__init__(title, author_or_director, year)
-        self.issue_number = issue_number
-
-    def description(self):
-        return (f"Title: {self.title}, Author/Director: {self.author_or_director}, Year: {self.year}, "
-                f"Issue number: {self.issue_number}")
+@decorator('str')
+def output_data_str() -> list:
+    return data
 
 
-class DVD(LibraryItem):
-    def __init__(self, title: str, author_or_director: str, year: int, duration: int):
-        super().__init__(title, author_or_director, year)
-        self.duration = duration
-
-    def description(self):
-        return (f"Title: {self.title}, Author/Director: {self.author_or_director}, Year: {self.year}, "
-                f"Duration: {self.duration}")
+@decorator('int')
+def output_data_int() -> list:
+    return data
 
 
-book = Book("A Tale of Two Cities", "Charles Dickens", 1859, 489)
-magazine = Magazine("ADAC Motorwelt", "BCN", 1925, 72842)
-dvd = DVD("Paramount Pictures presents", "Paramount Pictures", 1999, 90)
-print(book.description())
-print(magazine.description())
-print(dvd.description())
+@decorator('float')
+def output_data_float() -> list:
+    return data
+
+
+@decorator('please delete nothing')
+def output_data() -> list:
+    return data
+
+
+print(output_data_str())
+print(output_data_int())
+print(output_data_float())
+print(output_data())
