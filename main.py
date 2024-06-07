@@ -22,26 +22,26 @@ def decorator(filter_type: str):
 
 
 @decorator('str')
-def output_data_str() -> list:
+def get_data_str() -> list:
     return data
 
 
 @decorator('int')
-def output_data_int() -> list:
+def get_data_int() -> list:
     return data
 
 
 @decorator('float')
-def output_data_float() -> list:
+def get_data_float() -> list:
     return data
 
 
 @decorator('please delete nothing')
-def output_data() -> list:
+def get_data() -> list:
     return data
 
 
-print(output_data_str())
-print(output_data_int())
-print(output_data_float())
-print(output_data())
+print(get_data_str())
+print(get_data_int())
+print(get_data_float())
+print(get_data())
