@@ -13,13 +13,14 @@ with sqlite3.connect('book_store.sqlite3') as connection:
     cursor.execute(query)
     another_table = """
         CREATE TABLE IF NOT EXISTS books(
-	        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	        author_id INTEGER NOT NULL,
+            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+            author_id INTEGER NOT NULL,
             price FLOAT CHECK (price > 0),
             description TEXT,
             FOREIGN KEY (author_id) REFERENCES authors(id)
         );             
     """
+    cursor.execute(another_table)
     insert_query = """
         INSERT INTO authors (authors_name, year_of_birth)
         VALUES (?, ?)
