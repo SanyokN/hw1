@@ -18,7 +18,7 @@ with sqlite3.connect('book_store.sqlite3') as connection:
             price FLOAT CHECK (price > 0),
             description TEXT,
             FOREIGN KEY (author_id) REFERENCES authors(id)
-        );             
+        );
     """
     cursor.execute(another_table)
     insert_query = """
